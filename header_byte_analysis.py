@@ -35,7 +35,12 @@ def convert_hex_to_format(input_hex):
             if current_byte:
                 # Print the previous character in the required format
                 byte_string = " ".join(current_byte.strip().split())
-                byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode("utf-8")
+                try:
+                    byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode(
+                        "utf-8", errors="replace"
+                    )
+                except UnicodeDecodeError:
+                    byte_ascii = "�"  # Replace non-decodable bytes with �
                 result += f"Byte {start_index} đến {end_index-1}: {byte_string} = {byte_ascii}\n"
             # Print the space character
             result += f"Byte {end_index}: {hex_value} = dấu cách [space]\n"
@@ -54,7 +59,12 @@ def convert_hex_to_format(input_hex):
             # Handle line breaks (CR LF)
             if current_byte:
                 byte_string = " ".join(current_byte.strip().split())
-                byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode("utf-8")
+                try:
+                    byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode(
+                        "utf-8", errors="replace"
+                    )
+                except UnicodeDecodeError:
+                    byte_ascii = "�"  # Replace non-decodable bytes with �
                 result += f"Byte {start_index} đến {end_index-1}: {byte_string} = {byte_ascii}\n"
             result += f"Byte {end_index} đến {end_index + 1}: 0d 0a = dấu ngắt dòng [CR][LF]\n"
             start_index = end_index = end_index + 2
@@ -64,7 +74,12 @@ def convert_hex_to_format(input_hex):
             # Handle special characters
             if current_byte:
                 byte_string = " ".join(current_byte.strip().split())
-                byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode("utf-8")
+                try:
+                    byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode(
+                        "utf-8", errors="replace"
+                    )
+                except UnicodeDecodeError:
+                    byte_ascii = "�"  # Replace non-decodable bytes with �
                 result += f"Byte {start_index} đến {end_index-1}: {byte_string} = {byte_ascii}\n"
             result += f"Byte {end_index}: {hex_value} = {char}\n"
             start_index = end_index = end_index + 1
@@ -73,7 +88,12 @@ def convert_hex_to_format(input_hex):
     # Print any remaining character, if any
     if current_byte:
         byte_string = " ".join(current_byte.strip().split())
-        byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode("utf-8")
+        try:
+            byte_ascii = bytes.fromhex(byte_string.replace(" ", "")).decode(
+                "utf-8", errors="replace"
+            )
+        except UnicodeDecodeError:
+            byte_ascii = "�"  # Replace non-decodable bytes with �
         result += (
             f"Byte {start_index} đến {end_index-1}: {byte_string} = {byte_ascii}\n"
         )
